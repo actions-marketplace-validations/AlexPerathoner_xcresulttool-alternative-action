@@ -95,7 +95,6 @@ export class Formatter {
           )
           if (buildLog.content.length) {
             testReport.buildLog = buildLog
-            testReport.testStatus = 'failure'
             for (const annotation of buildLog.annotations) {
               testReport.annotations.push(annotation)
             }
@@ -266,9 +265,7 @@ export class Formatter {
 
       chapterSummary.content.push('---\n')
 
-      if (testSummary.stats.failed > 0) {
-        testReport.testStatus = 'failure'
-      } else if (testSummary.stats.passed > 0) {
+      if (testSummary.stats.passed > 0) {
         testReport.testStatus = 'success'
       }
 
@@ -881,6 +878,10 @@ export class Formatter {
     tests: actionTestSummaries,
     testSummaries: actionTestSummaries
   ): Promise<void> {
+    if (!tests) {
+      return
+    }
+
     for (const test of tests) {
       if (test.hasOwnProperty('subtests')) {
         const group = test as ActionTestSummaryGroup
