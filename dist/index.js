@@ -508,7 +508,10 @@ class Formatter {
                 chapterSummary.content.push(cols);
                 chapterSummary.content.push('</table>\n');
                 chapterSummary.content.push('---\n');
-                if (testSummary.stats.passed > 0) {
+                if (testSummary.stats.failed > 0) {
+                    testReport.testStatus = 'neutral';
+                }
+                else if (testSummary.stats.passed > 0) {
                     testReport.testStatus = 'success';
                 }
                 chapterSummary.content.push('### Test Summary');

@@ -95,6 +95,7 @@ export class Formatter {
           )
           if (buildLog.content.length) {
             testReport.buildLog = buildLog
+            testReport.testStatus = 'neutral'
             for (const annotation of buildLog.annotations) {
               testReport.annotations.push(annotation)
             }
@@ -264,8 +265,9 @@ export class Formatter {
       chapterSummary.content.push('</table>\n')
 
       chapterSummary.content.push('---\n')
-
-      if (testSummary.stats.passed > 0) {
+      if (testSummary.stats.failed > 0) {
+        testReport.testStatus = 'neutral'
+      } else if (testSummary.stats.passed > 0) {
         testReport.testStatus = 'success'
       }
 
